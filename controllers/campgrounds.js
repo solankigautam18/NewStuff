@@ -3,10 +3,26 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const {cloudinary} = require("../cloudinary");
+const express = require('express');
+const router = express.Router();
+
+
+// // Route to retrieve campground data
+// router.get('/campgrounds', async (req, res) => {
+//     try {
+//         const campgrounds = await Campground.find({}).populate('popupText');
+//         res.json(campgrounds);
+//     } catch (err) {
+//         console.error('Error retrieving campground data:', err);
+//         res.status(500).json({ error: 'Internal server error' });
+//     }
+// });
+
+// module.exports = router;
 
 
 module.exports.index = async (req,res) => {
-    const campgrounds = await Campground.find({});
+    const campgrounds = await Campground.find({}).populate('popupText');
     res.render('campgrounds/index', {campgrounds})
 }
 
@@ -20,7 +36,7 @@ module.exports.createCampground = async (req,res, next) => {
         limit: 1
     }).send()
     const campground = new Campground(req.body.campground);
-    console.log('data:',geoData.body.features[0].geometry)
+    // console.log('data:',geoData.body.features[0].geometry)
     campground.geometry = geoData.body.features[0].geometry;
     // campground.coordinates = geoData.body.features[0].geometry.coordinates;
     campground.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
@@ -29,9 +45,7 @@ module.exports.createCampground = async (req,res, next) => {
     // console.log(campground);
     req.flash('success', 'Successfully made a new campground !');
     res.redirect(`/campgrounds/${campground._id}`)
-
-    
-
+    console.log(campground.geometry.coordinates);
 }
 
 module.exports.showCampground = async(req,res) => {
