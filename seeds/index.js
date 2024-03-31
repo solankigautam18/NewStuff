@@ -33,7 +33,8 @@ const seedDB = async () => {
             },
             images: [
                 {
-                  url: 'https://res.cloudinary.com/dhl4uk0d0/image/upload/v1711459445/NewStuff/imq8gwmgmitgh9qxdl9h.png',
+                    url:'https://res.cloudinary.com/dhl4uk0d0/image/upload/v1711450237/cld-sample-2.jpg',
+                //   url: 'https://res.cloudinary.com/dhl4uk0d0/image/upload/v1711459445/NewStuff/imq8gwmgmitgh9qxdl9h.png',
                   filename: 'NewStuff/imq8gwmgmitgh9qxdl9h'
                 }
               ]
